@@ -31,7 +31,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{% url 'life:index' %}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fas fa-laugh-wink"></i>
                 </div>
@@ -43,7 +43,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{% url 'life:index' %}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
@@ -64,6 +64,33 @@
                     <span>Moneys</span>
                 </a>
             </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Form
+            </div>
+
+            <!-- Nav Item -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="{% url 'life:inquiry' %}" data-toggle="collapse" data-target="#collappseTwo"
+                   aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>Inquiry</span>
+                </a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                User
+            </div>
+
+
 
             <!-- Sidebar Toggler (Sidebar) -->
             <div class="text-center d-none d-md-inline">
@@ -90,12 +117,27 @@
                     <ul class="navbar-nav ml-auto">
 
                         <!-- Nav Item - User Information -->
+                        {% if user.is_authenticated %}
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                            <a  class="nav-link collapsed" href="{% url 'account_logout' %}" id="userDropdown1" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Blue Sugar</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Log Out</span>
                             </a>
                         </li>
+                        {% else %}
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link {% block active_signup %}{% endblock %}" href="{% url 'account_signup' %}" id="userDropdown2" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Sign Up</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link {% block active_login %}{% endblock %}" href="{% url 'account_login' %}" id="userDropdown2" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Log In</span>
+                            </a>
+                        </li>
+                        {% endif %}
 
                     </ul>
 
@@ -104,6 +146,21 @@
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
+
+                    <!-- Information about Sending Message -->
+                    {% if messages %}
+                    <div class="container">
+                        <div class="row">
+                            <ul class="messages" style="list-style: none;">
+                                {% for message in messages %}
+                                <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+                                    {{ message }}
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    {% endif %}
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
